@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Meeting from './Meeting';
 
-import { createMeetingThunk } from '../store/meetings';
+import { createMeetingThunk, getMeetingThunk } from '../store/meetings';
 
 class AllMeetings extends Component {
 
@@ -16,15 +16,15 @@ class AllMeetings extends Component {
 
   componentDidMount() {
     let timeoutId = null;
-    const addMeeting = () => {
-      this.props.createMeeting();
-      timeoutId = window.setTimeout(addMeeting, this.state.timeoutTime);
+    const getMeetings = () => {
+      this.props.getMeetings();
+      timeoutId = window.setTimeout(getMeetings, this.state.timeoutTime);
       this.setState({
         timeoutId,
         timeoutTime: Math.random() * 10000 + 3000,
       });
     }
-    addMeeting();
+    getMeetings();
   }
 
   componentWillUnmount() {
@@ -65,6 +65,9 @@ const mapState = ({ meetings }) => ({ meetings });
 const mapDispatch = dispatch => ({
   createMeeting: () => {
     dispatch(createMeetingThunk());
+  },
+  getMeetings: () => {
+    dispatch(getMeetingThunk());
   }
 });
 

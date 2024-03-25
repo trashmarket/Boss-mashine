@@ -3,6 +3,14 @@ import axios from 'axios';
 const CREATE_MEETING = 'CREATE_MEETING';
 const CANCEL_MEETINGS = 'CANCEL_MEETINGS';
 const SET_MEETINGS = 'SET_MEETINGS';
+const GET_MEETINGS = 'GET_MEETINGS';
+
+export const getMeetings = (meetings) => {
+  return {
+    type: GET_MEETINGS,
+    meetings
+  }
+}
 
 export const setMeetings = meetings => {
   return {
@@ -22,6 +30,15 @@ export const cancelMeetings = () => {
   return {
     type: CANCEL_MEETINGS
   }
+}
+
+export const getMeetingThunk = () => dispatch => {
+  axios.get('http://localhost:4001/api/meetings')
+  .then(res => res.data)
+  .then(meetings => {
+    dispatch(getMeetings(meetings));
+  })
+  .catch(console.error.bind(console));
 }
 
 export const createMeetingThunk = () => dispatch => {
@@ -54,6 +71,8 @@ export default (initialState = initial, action) => {
     case CANCEL_MEETINGS:
       return [];
     case SET_MEETINGS:
+      return action.meetings;
+    case GET_MEETINGS:
       return action.meetings;
     default:
       return initialState;

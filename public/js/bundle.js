@@ -6041,7 +6041,7 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.cancelMeetingsThunk = exports.createMeetingThunk = exports.cancelMeetings = exports.createMeeting = exports.setMeetings = undefined;
+exports.cancelMeetingsThunk = exports.createMeetingThunk = exports.getMeetingThunk = exports.cancelMeetings = exports.createMeeting = exports.setMeetings = exports.getMeetings = undefined;
 
 var _axios = __webpack_require__(39);
 
@@ -6054,6 +6054,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var CREATE_MEETING = 'CREATE_MEETING';
 var CANCEL_MEETINGS = 'CANCEL_MEETINGS';
 var SET_MEETINGS = 'SET_MEETINGS';
+var GET_MEETINGS = 'GET_MEETINGS';
+
+var getMeetings = exports.getMeetings = function getMeetings(meetings) {
+  return {
+    type: GET_MEETINGS,
+    meetings: meetings
+  };
+};
 
 var setMeetings = exports.setMeetings = function setMeetings(meetings) {
   return {
@@ -6072,6 +6080,16 @@ var createMeeting = exports.createMeeting = function createMeeting(meeting) {
 var cancelMeetings = exports.cancelMeetings = function cancelMeetings() {
   return {
     type: CANCEL_MEETINGS
+  };
+};
+
+var getMeetingThunk = exports.getMeetingThunk = function getMeetingThunk() {
+  return function (dispatch) {
+    _axios2.default.get('http://localhost:4001/api/meetings').then(function (res) {
+      return res.data;
+    }).then(function (meetings) {
+      dispatch(getMeetings(meetings));
+    }).catch(console.error.bind(console));
   };
 };
 
@@ -6109,6 +6127,8 @@ exports.default = function () {
     case CANCEL_MEETINGS:
       return [];
     case SET_MEETINGS:
+      return action.meetings;
+    case GET_MEETINGS:
       return action.meetings;
     default:
       return initialState;
@@ -16389,6 +16409,7 @@ var appEnter = function appEnter(nextRouterState) {
         ideasResponse = _ref2[1],
         meetingsResponse = _ref2[2];
 
+    console.log('ss');
     return [minionsResponse.data, ideasResponse.data, meetingsResponse.data];
   }).then(function (_ref3) {
     var _ref4 = _slicedToArray(_ref3, 3),
@@ -32487,15 +32508,15 @@ var AllMeetings = function (_Component) {
       var _this2 = this;
 
       var timeoutId = null;
-      var addMeeting = function addMeeting() {
-        _this2.props.createMeeting();
-        timeoutId = window.setTimeout(addMeeting, _this2.state.timeoutTime);
+      var getMeetings = function getMeetings() {
+        _this2.props.getMeetings();
+        timeoutId = window.setTimeout(getMeetings, _this2.state.timeoutTime);
         _this2.setState({
           timeoutId: timeoutId,
           timeoutTime: Math.random() * 10000 + 3000
         });
       };
-      addMeeting();
+      getMeetings();
     }
   }, {
     key: 'componentWillUnmount',
@@ -32569,6 +32590,9 @@ var mapDispatch = function mapDispatch(dispatch) {
   return {
     createMeeting: function createMeeting() {
       dispatch((0, _meetings.createMeetingThunk)());
+    },
+    getMeetings: function getMeetings() {
+      dispatch((0, _meetings.getMeetingThunk)());
     }
   };
 };

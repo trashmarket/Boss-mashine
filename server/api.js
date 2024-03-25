@@ -6,7 +6,7 @@ const { MINIONS, IDEAS, MEETINGS } = require('./constants');
 apiRouter.get('/minions', (req, res, next) => {
     const minions = getAllFromDatabase(MINIONS);
     
-    minions && res.send({data: minions})
+    minions && res.send(minions)
 })
 
 apiRouter.get('/ideas', (req, res, next) => {

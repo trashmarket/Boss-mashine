@@ -28,7 +28,6 @@ const appEnter = nextRouterState => {
     axios.get('http://localhost:4001/api/meetings'),
   ])
   .then(([minionsResponse,ideasResponse, meetingsResponse]) => {
-    console.log('ss')
     return [minionsResponse.data, ideasResponse.data, meetingsResponse.data];
   })
   .then(([minions, ideas, meetings]) => {
