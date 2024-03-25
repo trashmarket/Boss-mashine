@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
-const CORS = require('cors');
+const cors = require('cors');
+
+
 module.exports = app;
 
 /* Do not change the following line! It is required for testing and allowing
@@ -9,14 +11,15 @@ module.exports = app;
 const PORT = process.env.PORT || 4001;
 
 // Add middleware for handling CORS requests from index.html
-
-
+app.use(cors());
 // Add middware for parsing request bodies here:
+app.use(express.json())
 
 
 // Mount your existing apiRouter below at the '/api' path.
 const apiRouter = require('./server/api');
 
+app.use('/api', apiRouter);
 
 // This conditional is here for testing purposes:
 if (!module.parent) { 
