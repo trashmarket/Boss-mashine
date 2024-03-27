@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
+const errorhandler = require('errorhandler');
 
 module.exports = app;
 
@@ -26,6 +26,9 @@ if (!module.parent) {
   // Add your code to start the server listening at PORT below:
 
 }
+
+app.use(errorhandler());
+
 app.listen(PORT, () => {
   console.log('server start at http://localhost:4001')
 })

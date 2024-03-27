@@ -16409,7 +16409,6 @@ var appEnter = function appEnter(nextRouterState) {
         ideasResponse = _ref2[1],
         meetingsResponse = _ref2[2];
 
-    console.log('ss');
     return [minionsResponse.data, ideasResponse.data, meetingsResponse.data];
   }).then(function (_ref3) {
     var _ref4 = _slicedToArray(_ref3, 3),
