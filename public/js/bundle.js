@@ -33517,9 +33517,9 @@ var SingleWorkRow = function (_Component) {
     _this.toggleEdit = function (e) {
       if (_this.state.editing) {
         if (_this.props.newWork) {
-          _this.props.saveNewWork(_this.state.work);
+          _this.props.saveNewWork(_this.props.work);
         } else {
-          _this.props.updateWork(_this.state.work);
+          _this.props.updateWork(_this.props.work);
         }
       }
 
@@ -33546,7 +33546,7 @@ var SingleWorkRow = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return this.state.editing ? _react2.default.createElement(_SingleWorkRowEdit2.default, { work: this.state.work, idx: this.props.idx, handleChange: this.handleChange, toggleEdit: this.toggleEdit }) : _react2.default.createElement(_SingleWorkRowDescription2.default, { work: this.props.work, idx: this.props.idx, toggleEdit: this.toggleEdit });
+      return this.state.editing ? _react2.default.createElement(_SingleWorkRowEdit2.default, { work: this.props.work, idx: this.props.idx, handleChange: this.handleChange, toggleEdit: this.toggleEdit }) : _react2.default.createElement(_SingleWorkRowDescription2.default, { work: this.props.work, idx: this.props.idx, toggleEdit: this.toggleEdit });
     }
   }]);
 

@@ -31,9 +31,9 @@ class SingleWorkRow extends Component {
   toggleEdit = e => {
     if (this.state.editing) {
       if (this.props.newWork) {
-        this.props.saveNewWork(this.state.work);
+        this.props.saveNewWork(this.props.work);
       } else {
-        this.props.updateWork(this.state.work);
+        this.props.updateWork(this.props.work);
       }
     }
     
@@ -45,7 +45,7 @@ class SingleWorkRow extends Component {
   render() {
     return (
         this.state.editing
-        ? <SingleWorkRowEdit work={this.state.work} idx={this.props.idx} handleChange={this.handleChange} toggleEdit={this.toggleEdit}/>
+        ? <SingleWorkRowEdit work={this.props.work} idx={this.props.idx} handleChange={this.handleChange} toggleEdit={this.toggleEdit}/>
         : <SingleWorkRowDescription work={this.props.work} idx={this.props.idx} toggleEdit={this.toggleEdit}/>
     )
   }

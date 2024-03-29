@@ -1,13 +1,25 @@
 const express = require("express");
 const apiRouter = express.Router();
-const { getAllFromDatabase, getFromDatabaseById } = require("./db");
+const {
+  getAllFromDatabase,
+  getFromDatabaseById,
+  getArrayById,
+  updateInstanceInDatabase,
+  addToDatabase,
+  deleteFromDatabasebyId
+} = require("./db");
 const { MINIONS, IDEAS, MEETINGS, WORK } = require("./constants");
 const { response } = require("./utils");
-//minionId
+
 apiRouter.param("id", (req, res, next, id) => {
   req.id = id;
   next();
 });
+
+apiRouter.param("idWork", (req, res, next, id) => {
+  req.idWork = id;
+  next();
+})
 
 apiRouter.get("/minions", (req, res, next) => {
   const minions = getAllFromDatabase(MINIONS);
@@ -21,8 +33,52 @@ apiRouter.get("/minions/:id", (req, res, next) => {
   response(minion, res, next);
 });
 
-apiRouter.get("/minions/:id/work", () => {
-  const minionWorks = getFromDatabaseById(MINIONS, req.id);
+apiRouter.delete("/minions/:id", (req, res, next) => {
+  if (deleteFromDatabasebyId(MINIONS, req.id)) {
+    res.send()
+  } else {
+    res.status(404).send();
+  }
+})
+
+apiRouter.post("/minions", (req, res, next) => {
+  const minion = addToDatabase(MINIONS, req.body);
+
+  response(minion, res, next);
+})
+
+apiRouter.put("/minions/:id", (req, res, next) => {
+  const minionUdated = updateInstanceInDatabase(MINIONS, req.body);
+
+  response(minionUdated, res, next);
+});
+
+apiRouter.get("/minions/:id/work", (req, res, next) => {
+  const minionWorks = getArrayById(WORK, req.id, "minionId");
+
+  response(minionWorks, res, next);
+});
+
+apiRouter.post("/minions/:id/work", (req, res, next) => {
+  const work = addToDatabase(WORK, req.body);
+
+  response(work, res, next);
+})
+
+apiRouter.put("/minions/:id/work/:idWork", (req, res, next) => {
+  const work = updateInstanceInDatabase(WORK, req.body);
+
+  response(work, res, next);
+})
+
+apiRouter.delete("/minions/:id/work/:idWork", (req, res, next) => {
+  const work = deleteFromDatabasebyId(WORK, req.id);
+
+  if (work) {
+    res.status(200).send()
+  } else {
+    res.status(404).send();
+  }
 
 })
 
