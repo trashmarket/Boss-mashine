@@ -27,7 +27,11 @@ if (!module.parent) {
 
 }
 
-app.use(errorhandler());
+app.use(errorNotification);
+
+function errorNotification (err, req, res, next) {
+  res.status(err.status).send(err.message);
+}
 
 app.listen(PORT, () => {
   console.log('server start at http://localhost:4001')
