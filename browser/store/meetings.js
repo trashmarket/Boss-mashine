@@ -3,14 +3,6 @@ import axios from 'axios';
 const CREATE_MEETING = 'CREATE_MEETING';
 const CANCEL_MEETINGS = 'CANCEL_MEETINGS';
 const SET_MEETINGS = 'SET_MEETINGS';
-const GET_MEETINGS = 'GET_MEETINGS';
-
-export const getMeetings = (meetings) => {
-  return {
-    type: GET_MEETINGS,
-    meetings
-  }
-}
 
 export const setMeetings = meetings => {
   return {
@@ -71,8 +63,6 @@ export default (initialState = initial, action) => {
     case CANCEL_MEETINGS:
       return [];
     case SET_MEETINGS:
-      return action.meetings;
-    case GET_MEETINGS:
       return action.meetings;
     default:
       return initialState;

@@ -6041,7 +6041,7 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.cancelMeetingsThunk = exports.createMeetingThunk = exports.getMeetingThunk = exports.cancelMeetings = exports.createMeeting = exports.setMeetings = exports.getMeetings = undefined;
+exports.cancelMeetingsThunk = exports.createMeetingThunk = exports.getMeetingThunk = exports.cancelMeetings = exports.createMeeting = exports.setMeetings = undefined;
 
 var _axios = __webpack_require__(39);
 
@@ -6054,14 +6054,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var CREATE_MEETING = 'CREATE_MEETING';
 var CANCEL_MEETINGS = 'CANCEL_MEETINGS';
 var SET_MEETINGS = 'SET_MEETINGS';
-var GET_MEETINGS = 'GET_MEETINGS';
-
-var getMeetings = exports.getMeetings = function getMeetings(meetings) {
-  return {
-    type: GET_MEETINGS,
-    meetings: meetings
-  };
-};
 
 var setMeetings = exports.setMeetings = function setMeetings(meetings) {
   return {
@@ -6127,8 +6119,6 @@ exports.default = function () {
     case CANCEL_MEETINGS:
       return [];
     case SET_MEETINGS:
-      return action.meetings;
-    case GET_MEETINGS:
       return action.meetings;
     default:
       return initialState;
@@ -32508,7 +32498,7 @@ var AllMeetings = function (_Component) {
 
       var timeoutId = null;
       var getMeetings = function getMeetings() {
-        _this2.props.getMeetings();
+        _this2.props.createMeeting();
         timeoutId = window.setTimeout(getMeetings, _this2.state.timeoutTime);
         _this2.setState({
           timeoutId: timeoutId,

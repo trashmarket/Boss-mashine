@@ -17,7 +17,7 @@ class AllMeetings extends Component {
   componentDidMount() {
     let timeoutId = null;
     const getMeetings = () => {
-      this.props.getMeetings();
+      this.props.createMeeting();
       timeoutId = window.setTimeout(getMeetings, this.state.timeoutTime);
       this.setState({
         timeoutId,
