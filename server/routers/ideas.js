@@ -8,11 +8,19 @@ const {
   getFromDatabaseById,
   updateInstanceInDatabase,
   addToDatabase,
+  deleteFromDatabasebyId
 } = require('../db');
+const checkMillionDollarIdea = require("../checkMillionDollarIdea");
 
 ideaRouter.param('id', (req, res, next, id) => {
-  req.id = id;
-
+  if (id) {
+    if (!isNaN(+id)) {
+      req.id = id;
+  
+      next();
+    }
+    res.status(404).send();
+  } 
   next();
 })
 
@@ -22,22 +30,35 @@ ideaRouter.get("/", (req, res, next) => {
   ideas && res.send(ideas);
 });
 
-ideaRouter.post("/", (req, res, next) => {
+ideaRouter.post("/", checkMillionDollarIdea, (req, res, next) => {
   const newIdea = addToDatabase(IDEAS, req.body);
 
-  newIdea && res.send(newIdea);
+  response(newIdea, res, next, 201)
 })
 
 ideaRouter.get("/:id", (req, res, next) => {
   const idea = getFromDatabaseById(IDEAS, req.id);
 
-  idea && res.send(idea);
+  response(idea, res, next)
 })
 
-ideaRouter.put("/:id", (req, res, next) => {
-  const idea = updateInstanceInDatabase(IDEAS, req.body);
+ideaRouter.put("/:id", checkMillionDollarIdea, (req, res, next) => {
+  if (!isNaN(+req.id)) {
+    const idea = updateInstanceInDatabase(IDEAS, req.body);
+    response(idea, res, next);
+    return;
+  }
+  res.status(404).send();
+})
 
-  idea && res.send(idea);
+ideaRouter.delete("/:id", (req, res, next) => {
+  const ideaDel = deleteFromDatabasebyId(IDEAS, `${req.id}`);
+
+  if (ideaDel) {
+    res.status(204).send()
+  } else {
+    res.status(404).send()
+  }
 })
 
 module.exports = ideaRouter;

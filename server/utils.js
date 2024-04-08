@@ -1,6 +1,6 @@
-const response = (items, res, next) => {
+const response = (items, res, next, status = 200) => {
   if (items) {
-    res.send(items);
+    res.status(status).send(items);
   } else {
     const err = new Error('Not finded');
     err.status = 404;
